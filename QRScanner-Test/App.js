@@ -62,10 +62,10 @@ export default function App() {
         </View>
         
       
-        <View style={styles.bContainer}>
+        {/* <View style={styles.bContainer}> */}
           <Text style={styles.mainText}>{text}</Text>
           {scanned && <Button  title={'Tap to Scan Again'} onPress={() => setScanned(false) } />}
-        </View>
+        {/* </View> */}
 
 
       </View>
