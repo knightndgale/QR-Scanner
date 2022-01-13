@@ -14,9 +14,8 @@ export default function App() {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
         setHasPermission(status == 'granted')
-        
     })()
-  }
+  };
 
   // Request camera persmission!
   useEffect(()=> {
@@ -28,8 +27,8 @@ export default function App() {
     setScanned(true);
     setText(data);
     console.log('Type:'+type+'\nData:' + data)
-  }
-  // test git
+  }; 
+
   // Check permissions and return the screens
   if (hasPermission == null){
     return(
@@ -43,7 +42,7 @@ export default function App() {
     return(
       <View style={styles.container}>
         <Text style={{ margin: 10 }}>No access to camera</Text>
-        <Button title={'Allow Camera'} onPress={() => askForCameraPermission} />
+        <Button title={'Allow Camera'} onPress={() => askForCameraPermission()} />
       </View>
     )
   }
@@ -64,7 +63,7 @@ export default function App() {
       
         {/* <View style={styles.bContainer}> */}
           <Text style={styles.mainText}>{text}</Text>
-          {scanned && <Button  title={'Tap to Scan Again'} onPress={() => setScanned(false) } />}
+          {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false) } />}
         {/* </View> */}
 
 
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
   },
 
   QRcontainer: {
-    margin: 20,
+    margin: 15,
     width: 250,
     height: 250,
     justifyContent: 'center',
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
   },
 
   mainText: {
-    marginTop: 15
+    margin:10
   }
 
 
