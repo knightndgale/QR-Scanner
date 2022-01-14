@@ -13,32 +13,34 @@ export default function App() {
   const askForCameraPermission = () => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
-        setHasPermission(status == 'granted')
-    })()
-  };
+        setHasPermission(status === 'granted')
+    })();
+  }
 
   // Request camera persmission!
   useEffect(()=> {
     askForCameraPermission();
-  }, [])
+  }, []);
 
   // Event when scanning bar code
   const handleBarCodeScanned = ({type, data}) => {
     setScanned(true);
     setText(data);
-    console.log('Type:'+type+'\nData:' + data)
+
+    console.log('Type:'+type+'\nData:' + data);
   }; 
 
   // Check permissions and return the screens
-  if (hasPermission == null){
+  if (hasPermission === null){
     return(
       <View style={styles.container}>
-        <Text>Requesting for camera permission</Text>
+        <Text>Requesting for camera permission...</Text>
       </View>
     )
   }
 
-  if(hasPermission == false){
+  //Show button that request for Camera Permission if app doen't have permission
+  if(hasPermission === false){
     return(
       <View style={styles.container}>
         <Text style={{ margin: 10 }}>No access to camera</Text>
@@ -46,9 +48,7 @@ export default function App() {
       </View>
     )
   }
-
-
-
+//I'm here
   return (
       <View style={styles.container}>
         <View style={styles.TextContainer}>
@@ -57,20 +57,15 @@ export default function App() {
         </View>
         <View style={styles.QRcontainer}>
           <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={{height: 350, width: 350}}/>
+            style={{height: 400, width: 400}}/>
         </View>
-        
-      
-        {/* <View style={styles.bContainer}> */}
+        <View style={styles.buttonContainer}>
           <Text style={styles.mainText}>{text}</Text>
-          {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false) } />}
-        {/* </View> */}
-
-
+          {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+        </View>
       </View>
     );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -78,39 +73,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+
   TextContainer: {
     margin: 10,
     alignItems: 'center'
   },
 
- 
+  buttonContainer: {
+    
+  },
 
   headline: {
     fontSize: 15,
-    
   },
 
   subheadline: {
     color: '#A5A8AC',
-    marginBottom: 10,
   },
 
   QRcontainer: {
     margin: 15,
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    borderRadius: 30,
-    
-  },
-
-  mainText: {
-    margin:10
+    borderRadius: 30, 
   }
-
-
-
 
 });
