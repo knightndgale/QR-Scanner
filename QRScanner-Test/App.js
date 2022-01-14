@@ -48,7 +48,7 @@ export default function App() {
       </View>
     )
   }
-//I'm here
+
   return (
       <View style={styles.container}>
         <View style={styles.TextContainer}>
@@ -66,7 +66,7 @@ export default function App() {
       </View>
     );
 }
-
+// I'm here
 const styles = StyleSheet.create({
   container: {
     flex: 1,
