@@ -15,11 +15,12 @@ export const globalStyles = StyleSheet.create({
         paddingLeft: 15,
         fontSize: 25,
         fontWeight: 'bold',
-        color: '#ffff'
+        color: 'black'
     },
 
     paragraph: {
-        fontSize: 14
+        fontSize: 18,
+        color: 'black'
     },
 
     tableHeader: {

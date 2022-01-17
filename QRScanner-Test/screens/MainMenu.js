@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, Platform, StatusBar, ScrollView} from 'react-native';
-import { Provider as PaperProvider, Button, TextInput, DefaultTheme, Appbar } from 'react-native-paper';
+import { StyleSheet, Text, View, SafeAreaView, Image,  FlatList, Pressable} from 'react-native';
+import { Provider as PaperProvider,  DefaultTheme,  } from 'react-native-paper';
 import { useDimensions, useDeviceOrientation} from "@react-native-community/hooks";
-import { Entypo, FontAwesome, MaterialIcons, MaterialCommunityIcons  } from '@expo/vector-icons';
-import DefaultHeader from './components/DefaultHeader';
+import {  MaterialIcons } from '@expo/vector-icons';
+import DefaultHeader from './sharedComponents/DefaultHeader';
 import { expo } from './app.json';
 import { globalStyles } from './styles/global';
 
@@ -18,142 +18,127 @@ const theme = {
   },
 };
 
-
 export default function App() {
+ 
+   const [DynaButton, setDynaButton] = useState ([
+      { title: 'New Bet', iconName: 'create',  id: '1' },
+      { title: 'History',  iconName: 'history',  id: '2' },
+      { title: 'Hits',  iconName: 'fact-check',  id: '3' },
+      { title: 'Claim',   iconName: 'attach-money',  id: '4' },
+      { title: 'Cancel Doc', iconName: 'cancel-presentation',  id: '5' },
+      { title: 'Sales', iconName: 'point-of-sale', id: '6' },
+      { title: 'Setup Printer',  iconName: 'print',  id: '7' },
+    ]);
+  
+    const onPress = (pressedBtnName) => {
+      console.log(pressedBtnName);
+      //onPressHere
+    }
 
    return (
 
-    <PaperProvider theme={theme}>
-      <SafeAreaView style={styles.container}>
+      <PaperProvider theme={theme}>
+        <SafeAreaView style={styles.container}>
 
-        <View style={styles.appHeader}>
-         <DefaultHeader />
-        </View>
-        <View style={styles.menuHead}>
-          <Image 
-          style={{width: 120, height: 120}}
-          resizeMode= 'contain'
-          source={require('./assets/logo-test.png')}/>
-          <Text>vs {expo.version}</Text>
-        </View>
-
-        <View style={styles.menuBody}>
-        
-          <View style={styles.box}>
-
-              <View style={styles.boxButton}>
-
-                <Entypo name="new-message" size={30}   color="black" />
-                <View style={styles.buttonText}>
-                  <Text style={globalStyles.paragraph}>New Bet</Text>
-                </View>
-                
-              </View>
+          <View style={styles.appHeader}>
+            <DefaultHeader />
           </View>
-          <View style={styles.box}>
-              <View style={styles.boxButton}>
-
-              <FontAwesome name="history" size={30}  color="black" />
-
-                <View style={styles.buttonText}>
-                  <Text style={globalStyles.paragraph}>History</Text>
-                </View>
-
-              </View>
+          <View style={styles.menuHead}>
+            <Image 
+            style={{width: 100, height: 100}}
+            resizeMode= 'contain'
+            source={require('./assets/logo-test.png')}/>
+            <Text>vs {expo.version}</Text>
           </View>
 
-          <View style={styles.box}>
-              <View style={styles.boxButton}>
+          <View style={styles.menuBody}>
+ 
+        <FlatList
+          contentContainerStyle={{ minHeight: `100%` }}
+          numColumns={3}
+          keyExtractor={(item) => item.id}
+          ListFooterComponent={<View style={{height: 95}}/>}
+          data={DynaButton}
+          
+          renderItem={({item}) => (
 
-                <MaterialIcons name="fact-check" size={30}  color="black" />
-                <View style={styles.buttonText}>
-                  <Text style={globalStyles.paragraph}>Hits</Text>
-                </View>
+              <View style={styles.box}>         
+              <Pressable 
+              onPress={() => onPress( item['title'] )}
               
-              </View>
-          </View>
-           <View style={styles.box}>
-              <View style={styles.boxButton}>
+              //Other pressable event
+              // onPressIn={() => onPress("onPressIn")}
+              // onPressOut={() => onPress("onPressOut")}
+              // ------------------------------------
 
-                <FontAwesome name="dollar" size={30} color="black" />
-                <View style={styles.buttonText}>
-                  <Text style={globalStyles.paragraph}>Claim</Text>
-                </View>
-                
-              </View>
-          </View>
-          <View style={styles.box}>
-              <View style={styles.boxButton}> 
-                <MaterialIcons name="cancel-presentation" size={30} color="black" />    
-                <View style={styles.buttonText}>
-                  <Text style={globalStyles.paragraph}>Cancel Doc</Text>
+              //Long press event
+              onLongPress={() => onPress("longPress")}
+              //-------------------------------------
+
+              style={({ pressed }) =>[
+                {
+                  backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+                }
+              ]}
+              >
+              
+                <View style={styles.boxButton}>
+                  <MaterialIcons name={item.iconName} size={30}   color="black" />
+                  <View style={styles.buttonText}>
+                    <Text style={globalStyles.paragraph}>{item.title}</Text>
+                  </View>
                 </View>
 
+                </Pressable>
               </View>
+            
+          )}
+          
+        />
+
           </View>
 
-          <View style={styles.box}>
-              <View style={styles.boxButton}>
-                <MaterialCommunityIcons  name="point-of-sale" size={30} color="black" />
-                <View style={styles.buttonText}>
-                  <Text style={globalStyles.paragraph}>Sales</Text>
-                </View>
-              </View>
-          </View>
-          <View style={styles.box}>
-              <View style={styles.boxButton}>
-                <MaterialCommunityIcons   name="printer" size={30} color="black" />
-                <View style={styles.buttonText}>
-                <Text style={globalStyles.paragraph}>Setup Printer</Text>
-                </View>
-              </View>
-          </View>
+        </SafeAreaView>
         
-        </View>
-
-      </SafeAreaView>
-       
-    </PaperProvider>
-  );
-}
+      </PaperProvider>
+    );
+  
+};
 
 const styles = StyleSheet.create({
   container: {
-      
+    flex: 1,
   },
+
   appHeader:{
     width: '100%',
- 
   },
 
   menuHead: {
+      
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-end',
       // backgroundColor: '#1534',
       width: '100%',
- 
-      paddingVertical: 15,
+      paddingTop: 15,
+      paddingBottom:3,
+
   },
 
   menuBody: {
 
   borderTopWidth: 2,
   borderTopColor: '#eee',
-  paddingTop: 10,
+  paddingTop: 3,
   paddingHorizontal: 15,
   
   width: '100%',
   height: '70%',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
 },
 
 box: {
   width: '33%',
-  height: '25%',
-  padding: 4,
-  
-
+  padding: 3,
 },
 
 buttonText: {
@@ -161,15 +146,12 @@ buttonText: {
 },
 
 boxButton: {
-
-  flex: 1,
+  paddingVertical: 20,
   borderWidth: 1,
   borderRadius: 10,
   borderColor: '#000',
   alignItems: 'center',
   justifyContent: 'center',
-
-  
 },
 
 appFooter: {
