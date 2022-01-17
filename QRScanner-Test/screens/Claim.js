@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Status } from 'react-native';
 import { Button } from 'react-native-paper';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Provider as PaperProvider } from 'react-native-paper';
