@@ -3,7 +3,7 @@ import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Image, Platform, StatusBar} from 'react-native';
 import { Provider as PaperProvider, Button, TextInput, DefaultTheme, Appbar } from 'react-native-paper';
 import { useDimensions, useDeviceOrientation} from "@react-native-community/hooks";
-import { expo } from './app.json';
+// import { expo } from 'app.json';
 
 const theme = {
   ...DefaultTheme,

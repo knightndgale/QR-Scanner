@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "QRScanner-Test",
-    "slug": "QRScanner-Test",
+    "name": "STL-TEST",
+    "slug": "stl-test",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "description": ""
   },
   "name": "QRScanner-Test"
 }

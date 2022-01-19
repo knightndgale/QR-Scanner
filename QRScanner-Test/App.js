@@ -1,96 +1,137 @@
 
-
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image,  FlatList, Pressable, } from 'react-native';
-import { Provider as PaperProvider,  DefaultTheme, TextInput } from 'react-native-paper';
-import { useDimensions, useDeviceOrientation} from "@react-native-community/hooks";
-import {  Entypo } from '@expo/vector-icons';
+import { StyleSheet, Text, View, SafeAreaView, Image,  FlatList, Pressable} from 'react-native';
+import { Provider as PaperProvider,  DefaultTheme,  } from 'react-native-paper';
+import {  MaterialIcons } from '@expo/vector-icons';
 import DefaultHeader from './sharedComponents/DefaultHeader';
 import { expo } from './app.json';
 import { globalStyles } from './styles/global';
+
+
+import NewBet from './screens/NewBet';
+import BetCancel from './screens/BetCancel';
+import Claim from './screens/Claim';
+import HitReport from './screens/HitReports';
+import History from './screens/History';
+// import Menu from './screens/MainMenu';
+
+
+
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
     background: 'transparent',
-    primary: '#ABDFEA',
+    primary: '#15A3D9',
     accent: '#5172AA',
   },
 };
 
-export default function App() {
+const Stack = createNativeStackNavigator();
 
-  // Pass Data Here
-  const [userDetail] = useState (
-    {name: 'Joan', area: 'Balabagan10'}
-  );
-  // Pass Data Here
-  
-  // WARNING ***
-  // CHANGE DEVICE DATE TIME TO SERVER OR ONLINE DATE TIME
-  // TO AVOID DATE AND TIME CHEATING
-  const [currentDate, setCurrentDate] = useState('')
-  const [curentTime, setCurrentTime] = useState('')
+const App = () =>{
+  return(
+    <NavigationContainer>
+      <Stack.Navigator>
+         <Stack.Screen component={Main} name="Main Menu" />
+        <Stack.Screen component={NewBet} name="New Bet" />
+        <Stack.Screen component={BetCancel} name="Cancel Doc" />
+        <Stack.Screen component={Claim} name="Claim" />
+        <Stack.Screen component={History} name="History" />
+        <Stack.Screen component={HitReport} name="Hits" />
 
-  useEffect(() => {
-    // DATE ex: 1/25/2022
-    var date = new Date().getDate();
-    var month = new Date().getMonth();
-    var year = new Date().getFullYear();
-    // TIME ex: 1:54 PM
-    var hours = new Date().getHours();
-    var minutes = new Date().getMinutes();
-    var suffix = hours >= 12 ? "PM" : "AM";
-    var timeNow = ((hours + 11 ) % 12 + 1 + ":"+ ('0'+ minutes).toString() +" "+suffix  )
-   
-    setCurrentDate(
-      month+'/'+date+'/'+year
-    )
-    setCurrentTime(
-      timeNow
-    )
-  }, [])
+        {/* <Stack.Screen component={Sales} name="Sakes" /> */}
+        
+      </Stack.Navigator>
+    </NavigationContainer>
+    // <Home />
+  )
+}
+
+const Main = ({navigation}) => {
+ 
+   const [DynaButton, setDynaButton] = useState ([
+      { title: 'New Bet', iconName: 'create',  id: '1' },
+      { title: 'History',   iconName: 'history',  id: '2' },
+      { title: 'Hits',  iconName: 'fact-check',  id: '3' },
+      { title: 'Claim',   iconName: 'attach-money',  id: '4' },
+      { title: 'Cancel Doc',  iconName: 'cancel-presentation',  id: '5' },
+      { title: 'Sales',   iconName: 'point-of-sale', id: '6' },
+      { title: 'Setup Printer',    iconName: 'print',  id: '7' },
+      { title: 'Log Out',    iconName: 'logout',  id: '8' },
+    ]);
   
-  // WARNING ***
-  // CHANGE DEVICE DATE TIME TO SERVER OR ONLINE DATE TIME
-  // TO AVOID DATE AND TIME CHEATING
-  
+    const onPress = (pressedBtnName) => {
+  //     // console.log(pressedBtnName);
+  //     //onPressHere
+    }
+
    return (
 
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
-          {/* Header Testing */}
-          <View style={styles.appHeader}>
+
+          {/* <View style={styles.appHeader}>
             <DefaultHeader />
-            {/* <Text style={globalStyles.paragraph}>{user.name}</Text> */}
-          </View>
-          <View style={styles.appHeaderUser}>
-             
-                  <View style={styles.nameDate}>
-                    <Text style={globalStyles.paragraph}>{userDetail.name}</Text>
-                  </View>
-                  <Entypo name="dots-two-vertical" size={15} style={{paddingRight: 10}} color="black" />
-                  <View style={styles.areaTime}>
-                    <Text style={globalStyles.paragraph}>{userDetail.area}</Text>
-                  </View>
-    
-          </View>
-          <View style={styles.appHeaderDateTime}>
-             
-                  <View style={styles.nameDate}>
-                    <Text style={globalStyles.paragraph}>{currentDate}</Text>
-                  </View>
-                  <View style={styles.areaTime}>
-                    <Text style={globalStyles.paragraph}>{curentTime}</Text>
-                  </View>
-          </View>
-          <View>        
-            <TextInput  label="Username"  />
-            <TextInput  label="Password"  />
+          </View> */}
+          <View style={styles.menuHead}>
+            <Image 
+            style={{width: 100, height: 100}}
+            resizeMode= 'contain'
+            source={require('./assets/logo-test.png')}/>
+            <Text>vs {expo.version}</Text>
           </View>
 
-       
+          <View style={styles.menuBody}>
+ 
+          <FlatList
+            contentContainerStyle={{ minHeight: `100%` }}
+            numColumns={3}
+            keyExtractor={(item) => item.id}
+            ListFooterComponent={<View style={{height: 95}}/>}
+            data={DynaButton}
+            
+            renderItem={({item}) => (
+
+                <View style={styles.box}>         
+                <Pressable 
+                onPress={() => navigation.navigate(item.title)}
+                
+                //Other pressable event
+                // onPressIn={() => onPress("onPressIn")}
+                // onPressOut={() => onPress("onPressOut")}
+                // ------------------------------------
+
+                //Long press event
+                onLongPress={() => onPress("longPress")}
+                //-------------------------------------
+
+                style={({ pressed }) =>[
+                  {
+                    backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+                    borderRadius: 10
+                  }
+                ]}
+                >
+                
+                  <View style={styles.boxButton}>
+                    <MaterialIcons name={item.iconName} size={30}   color="black" />
+                    <View style={styles.buttonText}>
+                      <Text style={globalStyles.paragraph}>{item.title}</Text>
+                    </View>
+                  </View>
+
+                  </Pressable>
+                </View>
+              
+            )}
+          
+          />
+
+        </View>
 
         </SafeAreaView>
         
@@ -98,6 +139,15 @@ export default function App() {
     );
   
 };
+
+// const Home = () =>{
+//   return(
+//     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+//       <Text> Hello World!</Text>
+//     </View>
+//   )
+// }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -108,38 +158,50 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 
-  appHeaderUser: {
+  menuHead: {
+      
       alignItems: 'center',
+      justifyContent: 'flex-end',
+      // backgroundColor: '#1534',
       width: '100%',
-      flexDirection: 'row',
-      paddingVertical: 10,
-      backgroundColor: '#15A3D9',
-  },
-  
-  appHeaderDateTime: {
-    // alignItems: 'center',
-    width: '100%',
-    flexDirection: 'row',
-    paddingVertical: 10,
+      paddingTop: 15,
+      paddingBottom:3,
 
-    marginTop: 1,
-    backgroundColor: '#949494',
+  },
+
+  menuBody: {
+
+  borderTopWidth: 2,
+  borderTopColor: '#eee',
+  paddingTop: 3,
+  paddingHorizontal: 15,
+  
+  width: '100%',
+  height: '70%',
+},
+
+box: {
+  width: '33%',
+  padding: 3,
+},
+
+buttonText: {
+  paddingTop: 10,
+},
+
+boxButton: {
+  paddingVertical: 20,
+  borderWidth: 1,
+  borderRadius: 10,
+  borderColor: '#000',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+
+appFooter: {
 },
 
 
-  nameDate: {
-    width: '50%',
-    paddingLeft: 20,
-  },
-
-  areaTime: {
-    width: '50%',
-        // backgroundColor: '#1194',
-
-  },
-
-  appFooter: {
-  },
-
-
 });
+
+export default App;

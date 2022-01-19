@@ -1,9 +1,20 @@
 
 import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Status } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, DefaultTheme } from 'react-native-paper';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Provider as PaperProvider } from 'react-native-paper';
+import DefaultHeader from '../sharedComponents/DefaultHeader';
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'transparent',
+    primary: '#ABDFEA',
+    accent: '#5172AA',
+  },
+};
 
 
 export default function App() {
@@ -52,7 +63,11 @@ export default function App() {
   }
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={theme}>
+       {/* <View style={styles.appHeader}>
+            <DefaultHeader />
+          </View> */}
+        <View style={styles.appHeaderUser}></View>
         <View style={styles.container}>
           <View style={styles.TextContainer}>
             <Text style={styles.headline}>Place the QR code inside the area!</Text>
@@ -101,6 +116,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
     borderRadius: 30, 
-  }
+  },
+  appHeader:{
+    width: '100%',
+  },
+
 
 });
