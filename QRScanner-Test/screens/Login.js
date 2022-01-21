@@ -46,7 +46,7 @@ export default function App() {
           <TextInput  label="Username" value={username} onChangeText={username => setUsername(username)} />
           <TextInput  label="Password" value={password} onChangeText={password => setPassword(password)} />
         </View>
-        <Button mode="contained" onPress={() => console.log({landscape})}> Log In </Button>
+        <Button mode="contained" onPress={() => console.log('Hello World!')}> Log In </Button>
         {/* Body */}
 
         {/* Footer */}

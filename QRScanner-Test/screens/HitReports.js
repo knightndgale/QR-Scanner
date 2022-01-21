@@ -1,11 +1,8 @@
 import React, { useState, useEffect} from 'react';
-import { Alert, StyleSheet, Text, View, SafeAreaView,  FlatList, TextInput, Pressable, Modal, Image} from 'react-native';
+import { Alert, StyleSheet, Text, View, SafeAreaView,  FlatList,  Pressable} from 'react-native';
 import { Provider as PaperProvider,  DefaultTheme, Button } from 'react-native-paper';
-// import {  Entypo } from '@expo/vector-icons';
-import DefaultHeader from '../sharedComponents/DefaultHeader';
 import { globalStyles } from '../styles/global';
-// import {ModalPicker} from './component/ModalPicker';
-// import TableItemGenerator from './component/tableItemGenerator';
+
 
 import { useDeviceOrientation} from "@react-native-community/hooks";
 
@@ -25,7 +22,7 @@ export default function App() {
     const { landscape } = useDeviceOrientation();
     // To make the table header responsive to device orientation
     
-   const [currentDate, setCurrentDate] = useState('')
+   const [currentDate, setCurrentDate] = useState('');
 
    useEffect(() => {
     // DATE ex: 1/25/2022
@@ -45,9 +42,6 @@ export default function App() {
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
        
-          {/* <View style={styles.appHeader}>
-            <DefaultHeader />
-          </View> */}
           
           <View style={styles.menuHead}>
             <Text style={globalStyles.paragraph}> Draw Date: </Text>
@@ -55,12 +49,10 @@ export default function App() {
 
 
              <Button mode="contained" onPress={() => console.log()}> Change Date </Button>
-            {/* <Text>vs {expo.version}</Text> */}
           </View>
 
 
           <View style={styles.tableHeaderStyle}>
-                  {/* /, {paddingHorizontal: {landscape} ? 40 : 15} */}
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Draw</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Bet Key</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Bet Amt</Text>
@@ -101,30 +93,20 @@ const styles = StyleSheet.create({
     marginBottom: 6
   },
 
-
-  tableHeaderStyle: {
-
-    backgroundColor: '#4d4b4b',
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  
-
   menuHead: {
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: '#1534',
     width: '100%',
     paddingVertical: 20,
 
   },
 
-
-
-  appFooter: {
-
+  
+  tableHeaderStyle: {
+    backgroundColor: '#4d4b4b',
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
-
 
 });

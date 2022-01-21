@@ -3,7 +3,6 @@ import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Image,  FlatList, Pressable} from 'react-native';
 import { Provider as PaperProvider,  DefaultTheme,  } from 'react-native-paper';
 import {  MaterialIcons } from '@expo/vector-icons';
-import DefaultHeader from '../sharedComponents/DefaultHeader';
 
 import { globalStyles } from '../styles/global';
 
@@ -40,9 +39,6 @@ export default function App() {
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
 
-          {/* <View style={styles.appHeader}>
-            <DefaultHeader />
-          </View> */}
           <View style={styles.menuHead}>
             <Image 
             style={{width: 100, height: 100}}
@@ -69,10 +65,7 @@ export default function App() {
                 //Other pressable event
                 // onPressIn={() => onPress("onPressIn")}
                 // onPressOut={() => onPress("onPressOut")}
-                // ------------------------------------
-
-                //Long press event
-                onLongPress={() => onPress("longPress")}
+                // onLongPress={() => onPress("longPress")}
                 //-------------------------------------
 
                 style={({ pressed }) =>[
@@ -118,7 +111,6 @@ const styles = StyleSheet.create({
       
       alignItems: 'center',
       justifyContent: 'flex-end',
-      // backgroundColor: '#1534',
       width: '100%',
       paddingTop: 15,
       paddingBottom:3,

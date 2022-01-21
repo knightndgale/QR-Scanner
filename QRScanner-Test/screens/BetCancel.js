@@ -1,11 +1,7 @@
 import React, { useState, useEffect} from 'react';
-import { Alert, StyleSheet, Text, View, SafeAreaView,  FlatList, TextInput, Pressable, Modal, Image} from 'react-native';
+import { Alert, StyleSheet, Text, View, SafeAreaView,  FlatList, TextInput, Pressable} from 'react-native';
 import { Provider as PaperProvider,  DefaultTheme, Button } from 'react-native-paper';
-// import {  Entypo } from '@expo/vector-icons';
-import DefaultHeader from '../sharedComponents/DefaultHeader';
 import { globalStyles } from '../styles/global';
-// import {ModalPicker} from './component/ModalPicker';
-// import TableItemGenerator from './component/tableItemGenerator';
 
 import { useDeviceOrientation} from "@react-native-community/hooks";
 
@@ -44,20 +40,16 @@ export default function App() {
 
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
-       
-          {/* <View style={styles.appHeader}>
-            <DefaultHeader />
-          </View> */}
-          
+
           
           <View style={styles.inputContainer}>        
-            <TextInput keyboardType='number-pad' v  maxLength={3} style={globalStyles.textInput}  placeholder='Bet Number'/>
-          {/* Value={betNumber}   */}
+            <TextInput keyboardType='number-pad' style={globalStyles.textInput}  placeholder='Bet Number'/>
+
           </View>
 
 
           <View style={styles.tableHeaderStyle}>
-                  {/* /, {paddingHorizontal: {landscape} ? 40 : 15} */}
+
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Draw</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Bet Key</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Bet Amt</Text>
@@ -88,40 +80,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  appHeader:  {
-    width: '100%',
-  },
-  dateStyle: {
-    fontSize: 20,
-    color: 'black',
-    marginTop: 3,
-    marginBottom: 6
-  },
-
-
-  tableHeaderStyle: {
-
-    backgroundColor: '#4d4b4b',
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  
 
   menuHead: {
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: '#1534',
     width: '100%',
     paddingVertical: 20,
 
   },
 
-
-
-  appFooter: {
-
+  tableHeaderStyle: {
+    backgroundColor: '#4d4b4b',
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
+
+
 
 
 });

@@ -2,10 +2,9 @@ import React, { useState, useEffect} from 'react';
 import { Alert, StyleSheet, Text, View, SafeAreaView,  FlatList, TextInput, Pressable, Modal} from 'react-native';
 import { Provider as PaperProvider,  DefaultTheme, Button } from 'react-native-paper';
 import {  Entypo } from '@expo/vector-icons';
-import DefaultHeader from '../sharedComponents/DefaultHeader';
 import { globalStyles } from '../styles/global';
 import {ModalPicker} from '../component/ModalPicker';
-import TableItemGenerator from '../component/tableItemGenerator';
+
 
 import { useDeviceOrientation} from "@react-native-community/hooks";
 
@@ -21,10 +20,6 @@ const theme = {
 
 export default function App() {
 
-  
-
-
-
 
   // To make the table header responsive to device orientation
   const { landscape } = useDeviceOrientation();
@@ -32,20 +27,19 @@ export default function App() {
   
 
   
-  // Pass User Data Here
+  // Get User Data Here
   const [userDetail] = useState (
     {name: 'Joan', area: 'Balabagan10'}
   );
-  // Pass User Data Here
+  // Get User Data Here
  
-  // Pass Bet Data Here
+  // Insert Bet Data Here
   const [betNumber, setBetNum] = useState('')
   const [betAmount, setBetAmount] = useState('')
-  // Pass Bet Data Here
+  // Insert Bet Data Here
 
 
-  // Pass and Get TimeSlot Data Here
-
+  // ------------- Pass and Get TimeSlot Data Here ----------------------
   //WARNING: SET USE STATE TO THE FIRST TIMESLOT AVAILABLE FOR THE REST OF THE DAY
   const [selectedTimeSlot, setTimeSlot] = useState('9S');
   const [isModalVisible, setisModalVisble] = useState(false);
@@ -54,79 +48,70 @@ export default function App() {
   //MODAL FOR PICKER
     const changeModalVisiblity = (bool) => {
       setisModalVisble(bool)
-    }
+    };
 
     const setChosenTimeSlot = (option) => {
-      setTimeSlot(option)
-    }
-
+      setTimeSlot(option);
+    };
   //MODAL FOR PICKER
 
+  const [betInfo, setBetInfo] = useState([]);
 
-   // Append New Bet Number, Amount and Time Slot
-  const [betInfo, setBetInfo] = useState([
-    {betNum:'123', betAmt:'10', winAmt:'2000', selectedTS:'9S', key:'1'},
-    {betNum:'23', betAmt:'5', winAmt:'1000', selectedTS:'11S', key:'2'},
-    {betNum:'251', betAmt:'100', winAmt:'500', selectedTS:'9S', key:'3'}])
-   const appendBet = () =>{
+
+
+  // -------------- INSERT TO DB -----------------
+  // Append the bet info to flatlist and call insert function all of the bet info into the database
+   const appendBet = (bet, amt, timeslot) =>{
 
      if(betAmount === '' && betNumber === '')
      {
          Alert.alert("WARNING!", "Please fill required fields!");
      }
      else{
-      Alert.alert("CONGRATS!");
-     }
-   }
+      //WARNING ---------- ADD VALIDATION TO GET WINNING AMOUNT
+      setBetInfo(betInfo => [...betInfo, {betNum: bet, betAmt: amt, winAmt: '2000', selectedTS: timeslot, key: (betInfo.length + 1)}]);
+     }    
+   };
+  // -------------- INSERT TO DB -----------------
+  // Append the bet info to flatlist and call insert function all of the bet info into the database
  
-   // Append New Bet Number, Amount and Time Slot
 
-  // Pass and Get TimeSlot Data Here
+
 
 
 
   // WARNING ***
   // CHANGE DEVICE DATE TIME TO SERVER OR ONLINE DATE TIME
   // TO AVOID DATE AND TIME CHEATING
-  const [currentDate, setCurrentDate] = useState('')
-  const [curentTime, setCurrentTime] = useState('')
+  const [currentDate, setCurrentDate] = useState('');
+  const [curentTime, setCurrentTime] = useState('');
 
-  useEffect(() => {
-    // DATE ex: 1/25/2022
-    var date = new Date().getDate();
-    var month = new Date().getMonth();
-    var year = new Date().getFullYear();
-    // TIME ex: 1:54 PM
-    var hours = new Date().getHours();
-    var minutes = new Date().getMinutes();
-    var suffix = hours >= 12 ? "PM" : "AM";
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    var timeNow = ((hours + 11 ) % 12 + 1 + ":"+ minutes +" "+suffix  )
+  // LAG LAG LAG
+  // useEffect(() => {
+  //   // DATE ex: 1/25/2022
+  //   var date = new Date().getDate();
+  //   var month = new Date().getMonth();
+  //   var year = new Date().getFullYear();
+  //   // TIME ex: 1:54 PM
+  //   var hours = new Date().getHours();
+  //   var minutes = new Date().getMinutes();
+  //   var suffix = hours >= 12 ? "PM" : "AM";
+  //   minutes = minutes < 10 ? "0" + minutes : minutes;
+  //   var timeNow = ((hours + 11 ) % 12 + 1 + ":"+ minutes +" "+suffix  )
    
-    setCurrentDate(
-      month+'/'+date+'/'+year
-    )
-    setCurrentTime(
-      timeNow
-    )
-
-    
-  }, [])
-  
-
+  //   setCurrentDate(
+ 
+  //     month+'/'+date+'/'+year
+  //   )
+  //   setCurrentTime(
+  //     timeNow
+  //   )
+  // }, []);
+  // LAG LAG LAG
   // WARNING ***
   // CHANGE DEVICE DATE TIME TO SERVER OR ONLINE DATE TIME
   // TO AVOID DATE AND TIME CHEATING
   
-
-  // CREATE DATE AND TIME TICKER AND GET IT FORM THE SERVER
-
-  //   console.log("Bet Number"+ {betNumber});
-  //   //Get Bet Number and Amount and Set it
-  //   // Insert to DB + ticket #
-  //   // Append for multiple lines of Bet Number and Amount
-  // 
-
 
 
    return (
@@ -134,9 +119,7 @@ export default function App() {
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
        
-          {/* <View style={styles.appHeader}>
-            <DefaultHeader />
-          </View> */}
+
           <View style={styles.appHeaderUser}>
              
                   <View style={styles.nameDate}>
@@ -151,17 +134,16 @@ export default function App() {
           <View style={styles.appHeaderDateTime}>
              
                   <View style={styles.nameDate}>
-                    <Text style={globalStyles.paragraph}>{currentDate}</Text>
+                    <Text style={globalStyles.paragraph}>1/20/2022</Text>
                   </View>
                   <View style={styles.areaTime}>
-                    <Text style={globalStyles.paragraph}>{curentTime}</Text>
+                    <Text style={globalStyles.paragraph}>9:45 PM</Text>
                   </View>
           </View>
           <View style={styles.inputContainer}>        
-            <TextInput keyboardType='number-pad' value={betNumber}   onChangeText={betNumber => setBetNum(betNumber)}   maxLength={3} style={globalStyles.textInput}  placeholder='Bet Number'/>
-            <TextInput keyboardType='number-pad' value={betAmount}   onChangeText={betAmount => setBetAmount(betAmount)}     style={globalStyles.textInput} placeholder='Bet Amount'  />
+            <TextInput keyboardType='number-pad' value={betNumber}   onChangeText={number => setBetNum(number)} maxLength={3} style={globalStyles.textInput}  placeholder='Bet Number'/>
+            <TextInput keyboardType='number-pad'    value={betAmount}   onChangeText={amount => setBetAmount(amount)} style={globalStyles.textInput} placeholder='Bet Amount'  />
           
-
 
             <Pressable style={styles.pickerStyle}
             onPress={() => changeModalVisiblity(true)}>
@@ -169,7 +151,7 @@ export default function App() {
               <Entypo name="triangle-down" size={15} style={{paddingRight: 10}} color="#1F1F1F" />
             </Pressable>
 
-           <Button mode="contained" onPress={() => console.log(appendBet())}> Append </Button>
+           <Button mode="contained" onPress={() => appendBet(betNumber, betAmount, selectedTimeSlot)} > Append </Button>
 
            <Modal
               transparent={true}
@@ -185,35 +167,26 @@ export default function App() {
           </View>
           <View style={globalStyles.horizontalLine} />
           <View style={styles.tableHeaderStyle}>
-                  {/* /, {paddingHorizontal: {landscape} ? 40 : 15} */}
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Bet Number</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Bet Amount</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Win Amount</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Draw</Text>
           </View>
           <View style={{marginHorizontal: 7}}> 
-            <View style={globalStyles.tableItemWrapper}>
+            <View style={styles.itemContainer}>
 
-                {/* <FlatList
-                  numColumns={3}
+                <FlatList
+                  
                   data={betInfo}
-                  renderItem={({item, index}) => (
-                    <View >
+                  renderItem={({item, key}) => (
+                    <View style={styles.items}>
                       <Text style={globalStyles.tableText}>{item.betNum}</Text>
                       <Text style={globalStyles.tableText}>{item.betAmt}</Text>
                       <Text style={globalStyles.tableText}>{item.winAmt}</Text>
                       <Text style={globalStyles.tableText}>{item.selectedTS}</Text>
                     </View>
-                    // <Text style={globalStyles.tableText}>{item.betAmt}</Text>
-
-                  )}
-                  
-                /> */}
-                      <Text style={globalStyles.tableText}>123</Text>
-                      <Text style={globalStyles.tableText}>100</Text>
-                      <Text style={globalStyles.tableText}>2000</Text>
-                      <Text style={globalStyles.tableText}>11S</Text>
-                      
+                  )}/>
+      
             </View>
           </View>
     
@@ -230,6 +203,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+
+  itemContainer: {
+    
+  },
+
+  items: {
+    flexDirection: 'row'
   },
 
   appHeader:{

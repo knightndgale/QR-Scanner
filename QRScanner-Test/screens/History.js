@@ -1,11 +1,7 @@
-import React, { useState, useEffect} from 'react';
-import { Alert, StyleSheet, Text, View, SafeAreaView,  FlatList, TextInput, Pressable, Modal} from 'react-native';
-import { Provider as PaperProvider,  DefaultTheme, Button } from 'react-native-paper';
-import {  Entypo } from '@expo/vector-icons';
-import DefaultHeader from '../sharedComponents/DefaultHeader';
+import React, { useState} from 'react';
+import { Alert, StyleSheet, Text, View, SafeAreaView,  FlatList, Pressable} from 'react-native';
+import { Provider as PaperProvider,  DefaultTheme } from 'react-native-paper';
 import { globalStyles } from '../styles/global';
-import {ModalPicker} from '../component/ModalPicker';
-import TableItemGenerator from '../component/tableItemGenerator';
 
 import { useDeviceOrientation} from "@react-native-community/hooks";
 
@@ -21,69 +17,56 @@ const theme = {
 
 export default function App() {
 
-  
-
-
-
 
   // To make the table header responsive to device orientation
   const { landscape } = useDeviceOrientation();
   // To make the table header responsive to device orientation
   
-
-
   // Pass Bet Data Here
-  const [betNumber, setBetNum] = useState('')
-  const [betAmount, setBetAmount] = useState('')
+  const [betNumber, setBetNum] = useState('');
+  const [betAmount, setBetAmount] = useState('');
   // Pass Bet Data Here
 
 
-  
-
-
    // Append New Bet Number, Amount and Time Slot
-  const [betInfo, setBetInfo] = useState([
-    {betNum:'123', betAmt:'10', winAmt:'2000', selectedTS:'9S', key:'1'},
-    {betNum:'23', betAmt:'5', winAmt:'1000', selectedTS:'11S', key:'2'},
-    {betNum:'251', betAmt:'100', winAmt:'500', selectedTS:'9S', key:'3'}])
-   const appendBet = () =>{
-
-     if(betAmount === '' && betNumber === '')
-     {
-         Alert.alert("WARNING!", "Please fill required fields!");
-     }
-     else{
-      Alert.alert("CONGRATS!");
-     }
-   }
- 
-   // Append New Bet Number, Amount and Time Slot
+  const [history, setHistory] = useState([
+    {iD:'123-1234', betDate:'1/19/2022', time:'11:23 AM', DocNo:'1', key:'1'},
+    {iD:'214-4756', betDate:'1/23/2022', time:'11:19 AM', DocNo:'2', key:'2'},
+    {iD:'354-9871', betDate:'1/24/2022', time:'12:01 AM', DocNo:'3', key:'3'},
+    {iD:'652-7512', betDate:'1/25/2022', time:'09:29 AM', DocNo:'4', key:'4'},
+    {iD:'198-5479', betDate:'1/26/2022', time:'03:48 AM', DocNo:'5', key:'5'},
+    {iD:'751-8452', betDate:'1/27/2022', time:'07:06 AM', DocNo:'6', key:'6'},
+    ]);
 
 
    return (
 
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
-       
-          {/* <View style={styles.appHeader}>
-            <DefaultHeader />
-          </View> */}
          
           <View style={styles.tableHeaderStyle}>
-                  {/* /, {paddingHorizontal: {landscape} ? 40 : 15} */}
+                 
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 70 : 30}]}>ID</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 70 : 30}]}>Bet Date</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 70 : 30}]}>Time</Text>
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 70 : 30}]}>Doc No.</Text>
           </View>
 
-          <View style={globalStyles.tableItemWrapper}>
-                    <Text style={globalStyles.tableText}>123-1234</Text>
-                    <Text style={globalStyles.tableText}>1/19/2022</Text>
-                    <Text style={globalStyles.tableText}>11:59 AM</Text>
-                    <Text style={globalStyles.tableText}>1</Text>
+            <View style={styles.itemContainer}>
+                <FlatList   
+                  data={history}
+                  renderItem={({item, key}) => (
+                    <View style={styles.items}>
+                      <Text style={globalStyles.tableText}>{item.iD}</Text>
+                      <Text style={globalStyles.tableText}>{item.betDate}</Text>
+                      <Text style={globalStyles.tableText}>{item.time}</Text>
+                      <Text style={globalStyles.tableText}>{item.DocNo}</Text>
+                    </View>
+                  )}
+                 />
                     
-          </View>
+            </View>
+
     
       
 
@@ -99,69 +82,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-  appHeader:{
-    width: '100%',
+  items: {
+    flexDirection: 'row'
   },
-
-  buttonStyle: {
-    marginTop:10,
-  },
-
+  
   tableHeaderStyle: {
-    // marginHorizontal: 7,
-    // marginTop: 7,
     backgroundColor: '#4d4b4b',
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  
-  pickerStyle:{
-    justifyContent: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,   
-  },
-
-  pickerTextStyle:{
-    fontSize: 18,
-  },  
-
-  appHeaderUser: {
-      alignItems: 'center',
-      width: '100%',
-      flexDirection: 'row',
-      paddingVertical: 10,
-      backgroundColor: '#15A3D9',
-  },
-  inputContainer:{
-    paddingHorizontal: 10,
-  },
-
-  appHeaderDateTime: {
-    // alignItems: 'center',
-    width: '100%',
-    flexDirection: 'row',
-    paddingVertical: 10,
-
-    marginTop: 1,
-    backgroundColor: '#949494',
-},
-
-
-  nameDate: {
-    width: '50%',
-    paddingLeft: 20,
-  },
-
-  areaTime: {
-    width: '50%',
-
-  },
-
-  appFooter: {
-  },
-
-
+ 
 });

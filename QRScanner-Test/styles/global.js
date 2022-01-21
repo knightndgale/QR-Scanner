@@ -29,11 +29,11 @@ export const globalStyles = StyleSheet.create({
         borderTopColor: '#eee',
         width: '100%', 
         marginTop: 5
-        // paddingVertical: 2,
+
     },
 
     tableItemWrapper: {
-        // marginHorizontal: 7,
+
         flexDirection: 'row',
         justifyContent: 'flex-start',
     },

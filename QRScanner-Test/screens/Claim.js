@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Status } from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import { Button, DefaultTheme } from 'react-native-paper';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Provider as PaperProvider } from 'react-native-paper';
-import DefaultHeader from '../sharedComponents/DefaultHeader';
+
 
 const theme = {
   ...DefaultTheme,
@@ -43,7 +43,7 @@ export default function App() {
     console.log('Type:'+type+'\nData:' + data);
   }; 
 
-  // Check permissions and return the screens
+
   if (hasPermission === null){
     return(
       <View style={styles.container}>
@@ -52,7 +52,7 @@ export default function App() {
     )
   }
 
-  //Show button that request for Camera Permission if app doen't have permission
+
   if(hasPermission === false){
     return(
       <View style={styles.container}>
@@ -64,9 +64,7 @@ export default function App() {
 
   return (
     <PaperProvider theme={theme}>
-       {/* <View style={styles.appHeader}>
-            <DefaultHeader />
-          </View> */}
+
         <View style={styles.appHeaderUser}></View>
         <View style={styles.container}>
           <View style={styles.TextContainer}>
@@ -97,8 +95,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
   },
-
-
 
   headline: {
     fontSize: 15,
