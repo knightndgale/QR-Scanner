@@ -1,10 +1,10 @@
 import React, { useState, useEffect} from 'react';
-import { Alert, StyleSheet, Text, View, SafeAreaView,  FlatList, TextInput, Pressable, Modal} from 'react-native';
+import { Alert, StyleSheet, Text, View, SafeAreaView,  FlatList, TextInput, Pressable, Modal, IconButton} from 'react-native';
 import { Provider as PaperProvider,  DefaultTheme, Button } from 'react-native-paper';
 import {  Entypo } from '@expo/vector-icons';
 import { globalStyles } from '../styles/global';
 import {ModalPicker} from '../component/ModalPicker';
-
+import Header from '../component/NewBetHeader';
 
 import { useDeviceOrientation} from "@react-native-community/hooks";
 
@@ -18,14 +18,16 @@ const theme = {
   },
 };
 
-export default function App() {
+
+
+
+
+export default function App  ({navigation}) {
 
 
   // To make the table header responsive to device orientation
   const { landscape } = useDeviceOrientation();
   // To make the table header responsive to device orientation
-  
-
   
   // Get User Data Here
   const [userDetail] = useState (
@@ -33,30 +35,42 @@ export default function App() {
   );
   // Get User Data Here
  
-  // Insert Bet Data Here
-  const [betNumber, setBetNum] = useState('')
-  const [betAmount, setBetAmount] = useState('')
-  // Insert Bet Data Here
-
-
   // ------------- Pass and Get TimeSlot Data Here ----------------------
   //WARNING: SET USE STATE TO THE FIRST TIMESLOT AVAILABLE FOR THE REST OF THE DAY
   const [selectedTimeSlot, setTimeSlot] = useState('9S');
   const [isModalVisible, setisModalVisble] = useState(false);
+
+  const changeModalVisiblity = (bool) => {
+    setisModalVisble(bool)
+  };
+
+  const setChosenTimeSlot = (option) => {
+    setTimeSlot(option);
+  };
+
   //WARNING: SET USE STATE TO THE FIRST TIMESLOT AVAILABLE FOR THE REST OF THE DAY
   
-  //MODAL FOR PICKER
-    const changeModalVisiblity = (bool) => {
-      setisModalVisble(bool)
-    };
+   
 
-    const setChosenTimeSlot = (option) => {
-      setTimeSlot(option);
-    };
-  //MODAL FOR PICKER
-
+ 
+  // Insert Bet Data Here
+  const [betNumber, setBetNum] = useState('')
+  const [betAmount, setBetAmount] = useState('')
   const [betInfo, setBetInfo] = useState([]);
+ 
 
+  const isResetInputNow = (bool) => {
+    if (bool)
+    {
+      setBetNum('');
+      setBetAmount('');
+      // setTimeSlot('');
+      // Set time slot to initial value
+    }
+
+ 
+  };
+  // Insert Bet Data Here
 
 
   // -------------- INSERT TO DB -----------------
@@ -70,16 +84,15 @@ export default function App() {
      else{
       //WARNING ---------- ADD VALIDATION TO GET WINNING AMOUNT
       setBetInfo(betInfo => [...betInfo, {betNum: bet, betAmt: amt, winAmt: '2000', selectedTS: timeslot, key: (betInfo.length + 1)}]);
+
+      console.log({betInfo});
      }    
    };
   // -------------- INSERT TO DB -----------------
+
+
   // Append the bet info to flatlist and call insert function all of the bet info into the database
  
-
-
-
-
-
   // WARNING ***
   // CHANGE DEVICE DATE TIME TO SERVER OR ONLINE DATE TIME
   // TO AVOID DATE AND TIME CHEATING
@@ -118,7 +131,11 @@ export default function App() {
 
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
-       
+
+          <View style={styles.appHeader}>
+            <Header navigation={navigation}
+            isResetInputNow={isResetInputNow}/>
+          </View>
 
           <View style={styles.appHeaderUser}>
              
@@ -153,6 +170,7 @@ export default function App() {
 
            <Button mode="contained" onPress={() => appendBet(betNumber, betAmount, selectedTimeSlot)} > Append </Button>
 
+
            <Modal
               transparent={true}
               animationType='fade'
@@ -173,10 +191,9 @@ export default function App() {
                     <Text style={[globalStyles.tableHeader, {paddingHorizontal: landscape ? 50 : 10}]}>Draw</Text>
           </View>
           <View style={{marginHorizontal: 7}}> 
-            <View style={styles.itemContainer}>
 
                 <FlatList
-                  
+                  //  ListFooterComponent={<View style={{height: 150}}/>}
                   data={betInfo}
                   renderItem={({item, key}) => (
                     <View style={styles.items}>
@@ -187,7 +204,7 @@ export default function App() {
                     </View>
                   )}/>
       
-            </View>
+       
           </View>
     
       
@@ -203,10 +220,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
 
-  itemContainer: {
-    
+  appHeader: {
+    width: '100%',
   },
 
   items: {
@@ -260,7 +278,7 @@ const styles = StyleSheet.create({
 
     marginTop: 1,
     backgroundColor: '#949494',
-},
+  },
 
 
   nameDate: {
@@ -273,8 +291,6 @@ const styles = StyleSheet.create({
 
   },
 
-  appFooter: {
-  },
-
 
 });
+

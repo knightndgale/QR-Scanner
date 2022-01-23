@@ -19,6 +19,13 @@ export const globalStyles = StyleSheet.create({
         color: 'black'
     },
 
+    headerStyle: {
+        paddingLeft: 15,
+        fontSize: 17,
+        fontWeight: '500',
+        color: 'black'
+    },
+
     paragraph: {
         fontSize: 16,
         color: 'black'

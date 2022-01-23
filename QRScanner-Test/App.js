@@ -1,18 +1,21 @@
 
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image,  FlatList, Pressable, Button} from 'react-native';
-import { Provider as PaperProvider,  DefaultTheme,  } from 'react-native-paper';
+import { StyleSheet, Text, View, SafeAreaView, Image,  FlatList, Pressable, } from 'react-native';
+import { Provider as PaperProvider,  DefaultTheme, IconButton, Colors } from 'react-native-paper';
 import {  MaterialIcons } from '@expo/vector-icons';
+
 
 import { expo } from './app.json'; // app version
 import { globalStyles } from './styles/global'; // global styles
-
+// import Routes from './';
 
 import NewBet from './screens/NewBet';
 import BetCancel from './screens/BetCancel';
 import Claim from './screens/Claim';
 import HitReport from './screens/HitReports';
 import History from './screens/History';
+
+
 
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -27,9 +30,7 @@ const theme = {
     accent: '#5172AA',
   },
 };
-const headerIcon = () => {
-  
-}
+
 
 
 const Stack = createNativeStackNavigator();
@@ -38,20 +39,20 @@ export default function App  () {
   return(
     <NavigationContainer>
       <Stack.Navigator>
+        {/* You can set the first or initial screen in the Stack.Navigator
+        initialRouteName="firstScreen" 
+        */}
          <Stack.Screen component={Main} name="Main Menu" />
-        <Stack.Screen component={NewBet} name="New Bet" options={{
-     
-          headerRight: () => (
+        <Stack.Screen component={NewBet} name="New Bet" options={{  
+
+          headerShown: false,
+         }}/>
+
+         {/*  headerRight: () => (
             <View style={styles.headerIconContainer}> 
-                <Pressable>
-                <MaterialIcons  name='save' size={30}   color="black" />
-                </Pressable> 
-                <Pressable>
-                <MaterialIcons  name='refresh' size={30}   color="black" />
-                </Pressable>
-              
-       
-            </View>),}}/>
+                <IconButton color={Colors.black} size={30} icon="content-save"  onPress={() => console.log('Pressed')} />
+                <IconButton color={Colors.black} size={30} icon="refresh" />           
+            </View>), */}
             
         <Stack.Screen component={BetCancel} name="Cancel Doc" />
         <Stack.Screen component={Claim} name="Claim"/>
@@ -85,6 +86,7 @@ const Main = ({navigation}) => {
         <SafeAreaView style={styles.container}>
           
           <View style={styles.menuHead}>
+   
 
             {/* Logo and App Version */}
             <Image 
@@ -208,17 +210,9 @@ const styles = StyleSheet.create({
 
   headerIconContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
-    alignItems: 'flex-end'
-    // alignItems: 'flex-end',
+
     
     
   },
-
-  headerIcon: {
-    marginHorizontal: 20,
-    
-  }
-
 
 });
