@@ -49,11 +49,9 @@ export default function App  ({navigation}) {
   };
 
   //WARNING: SET USE STATE TO THE FIRST TIMESLOT AVAILABLE FOR THE REST OF THE DAY
-  
    
-
- 
   // Insert Bet Data Here
+
   const [betNumber, setBetNum] = useState('')
   const [betAmount, setBetAmount] = useState('')
   const [betInfo, setBetInfo] = useState([]);
@@ -62,13 +60,18 @@ export default function App  ({navigation}) {
   const isResetInputNow = (bool) => {
     if (bool)
     {
-      setBetNum('');
-      setBetAmount('');
-      // setTimeSlot('');
-      // Set time slot to initial value
+      Alert.alert(
+        "Warning!",
+        "Are you sure to reset your betting records?",
+        [
+          {
+            text: "Cancel"
+          },
+          { text: "OK", onPress: () =>  setBetInfo([])}
+        ]
+      );
+      
     }
-
- 
   };
   // Insert Bet Data Here
 
@@ -84,7 +87,8 @@ export default function App  ({navigation}) {
      else{
       //WARNING ---------- ADD VALIDATION TO GET WINNING AMOUNT
       setBetInfo(betInfo => [...betInfo, {betNum: bet, betAmt: amt, winAmt: '2000', selectedTS: timeslot, key: (betInfo.length + 1)}]);
-
+      setBetNum('');
+      setBetAmount('');
       console.log({betInfo});
      }    
    };
